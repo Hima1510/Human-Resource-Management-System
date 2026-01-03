@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dayflow HRMS - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            /* Enhanced Color Palette */
+            --primary: #1e40af;
+            --primary-light: #60a5fa;
+            --primary-dark: #1e3a8a;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --teal: #0d9488;
+            --teal-light: #5eead4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+
+            /* Background & Surface Colors */
+            --bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            --card: #ffffff;
+            --card-hover: #fef3c7;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+
+            /* Text Colors */
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #10b981 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
+
+            /* Shadows */
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-elevated: 0 10px 25px -5px rgba(30, 41, 59, 0.08), 0 8px 10px -6px rgba(30, 41, 59, 0.03);
+            --shadow-glow: 0 20px 40px rgba(124, 58, 237, 0.1);
+            --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --card: #1e293b;
+            --border: #334155;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-light: #cbd5e1;
+            --gradient-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 20px 40px rgba(124, 58, 237, 0.2);
+            --shadow-button: 0 4px 12px rgba(0, 0, 0, 0.25);
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        [data-theme="dark"] header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-mark::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+
+        .logo-mark:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+        }
+
+        .logo-mark:hover::after {
+            transform: rotate(225deg);
+        }
+
+        .logo-text-main {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .theme-toggle {
+            background: var(--gradient-card);
+            border: 2px solid transparent;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-button);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(124, 58, 237, 0.2);
+        }
+
+        .theme-toggle:hover::before {
+            opacity: 0.1;
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            z-index: 1;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover .theme-icon {
+            transform: scale(1.1);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-button);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 5%;
+            flex: 1;
+        }
+
+        .welcome {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .welcome h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .welcome p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Filters */
+        .filters {
+            background: var(--gradient-card);
+            border-radius: 20px;
+            border: 2px solid transparent;
+            padding: 25px 30px;
+            margin-bottom: 50px;
+            box-shadow: var(--shadow-elevated);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filters::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .filters:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(124, 58, 237, 0.2);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            letter-spacing: 0.01em;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--text-main);
+            font-weight: 500;
+            width: 100%;
+        }
+
+        [data-theme="dark"] .filter-group select,
+        [data-theme="dark"] .filter-group input {
+            background: #334155;
+            border-color: #475569;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .filter-actions {
+            display: flex;
+            align-items: end;
+            gap: 15px;
+        }
+
+        /* Dashboard Grid - Now Column Layout */
+        .dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 50px;
+            max-width: 100%;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                gap: 20px;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--gradient-card);
+            border-radius: 20px;
+            border: 2px solid transparent;
+            padding: 25px 30px;
+            box-shadow: var(--shadow-elevated);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-primary);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(124, 58, 237, 0.2);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Metrics */
+        .metric-container {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .metric {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        /* Lists */
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .list-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .list-value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Tables */
+        .table-container {
+            flex: 1;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            min-width: 400px;
+        }
+
+        [data-theme="dark"] .table {
+            background: #334155;
+        }
+
+        .table th, .table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .table th {
+            background: var(--gradient-primary);
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table tr:nth-child(even) {
+            background: rgba(124, 58, 237, 0.02);
+        }
+
+        [data-theme="dark"] .table tr:nth-child(even) {
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .table tr:hover {
+            background: rgba(124, 58, 237, 0.05);
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        /* Status */
+        .status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            display: inline-block;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .status.present {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .status.absent {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .status.pending {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .status.approved {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .card-actions {
+            margin-top: auto;
+            padding-top: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                padding: 30px 4%;
+            }
+            
+            header {
+                padding: 15px 4%;
+            }
+            
+            .welcome h1 {
+                font-size: 2.2rem;
+            }
+            
+            .welcome p {
+                font-size: 1.1rem;
+            }
+            
+            .filters {
+                padding: 20px;
+            }
+            
+            .filter-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .filter-actions {
+                margin-top: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .metric {
+                font-size: 2rem;
+            }
+            
+            .table th, .table td {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-grid {
+                gap: 20px;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .card-title-wrapper {
+                width: 100%;
+            }
+            
+            .action-btns {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .user-info {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .logout-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-mark">D</div>
+            <div>
+                <div class="logo-text-main">Dayflow</div>
+                <div class="logo-text-sub">Admin Dashboard</div>
+            </div>
+        </div>
+        <div class="user-info">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+            <span>Welcome, Admin</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome">
+            <h1>Admin Dashboard</h1>
+            <p>Manage employees, attendance, and approvals with real-time insights</p>
+        </div>
+
+        <div class="filters">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="department">Department</label>
+                    <select id="department">
+                        <option value="">All Departments</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="hr">HR</option>
+                        <option value="sales">Sales</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="finance">Finance</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="status">Status</label>
+                    <select id="status">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="on-leave">On Leave</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search">Search Employee</label>
+                    <input type="text" id="search" placeholder="Name or ID">
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                    <button class="btn btn-outline" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Employee List Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <div class="card-icon">👥</div>
+                        <span class="card-title">Employee List</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="metric-container">
+                        <div class="metric">25</div>
+                        <div class="metric-label">Total Employees</div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>Engineering</td>
+                                    <td><span class="status present">Active</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">View</button>
+                                        <button class="btn btn-outline btn-sm">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>HR</td>
+                                    <td><span class="status present">Active</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">View</button>
+                                        <button class="btn btn-outline btn-sm">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Bob Johnson</td>
+                                    <td>Sales</td>
+                                    <td><span class="status absent">Inactive</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">View</button>
+                                        <button class="btn btn-outline btn-sm">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Alice Brown</td>
+                                    <td>Marketing</td>
+                                    <td><span class="status present">Active</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">View</button>
+                                        <button class="btn btn-outline btn-sm">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" style="flex: 1;">View All Employees</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Overview Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <div class="card-icon">📊</div>
+                        <span class="card-title">Attendance Overview</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="metric-container">
+                        <div class="metric">92%</div>
+                        <div class="metric-label">Average Attendance</div>
+                    </div>
+                    <div style="flex: 1; margin-top: 10px;">
+                        <div class="list-item">
+                            <span class="list-label">Present Today</span>
+                            <span class="list-value">23/25</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">This Week</span>
+                            <span class="list-value">118/125</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">This Month</span>
+                            <span class="list-value">520/575</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">Late Arrivals</span>
+                            <span class="list-value">12</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" style="flex: 1;">View Details</button>
+                        <button class="btn btn-outline">Export</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave Approvals Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <div class="card-icon">✅</div>
+                        <span class="card-title">Leave Approvals</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="metric-container">
+                        <div class="metric">5</div>
+                        <div class="metric-label">Pending Requests</div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Type</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>John Doe</td>
+                                    <td>Annual</td>
+                                    <td>5 days</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">Approve</button>
+                                        <button class="btn btn-outline btn-sm">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jane Smith</td>
+                                    <td>Sick</td>
+                                    <td>2 days</td>
+                                    <td><span class="status approved">Approved</span></td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td>Mike Wilson</td>
+                                    <td>Emergency</td>
+                                    <td>1 day</td>
+                                    <td><span class="status pending">Pending</span></td>
+                                    <td class="action-btns">
+                                        <button class="btn btn-outline btn-sm">Approve</button>
+                                        <button class="btn btn-outline btn-sm">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Sarah Lee</td>
+                                    <td>Maternity</td>
+                                    <td>90 days</td>
+                                    <td><span class="status approved">Approved</span></td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" style="flex: 1;">Manage All Requests</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payroll Summary Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <div class="card-icon">💰</div>
+                        <span class="card-title">Payroll Summary</span>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="metric-container">
+                        <div class="metric">$125K</div>
+                        <div class="metric-label">Monthly Payroll</div>
+                    </div>
+                    <div style="flex: 1; margin-top: 10px;">
+                        <div class="list-item">
+                            <span class="list-label">Base Salaries</span>
+                            <span class="list-value">$110,000</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">Bonuses</span>
+                            <span class="list-value">$15,000</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">Deductions</span>
+                            <span class="list-value">$8,000</span>
+                        </div>
+                        <div class="list-item">
+                            <span class="list-label">Net Payable</span>
+                            <span class="list-value">$117,000</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" style="flex: 1;">Generate Report</button>
+                        <button class="btn btn-outline">Preview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            // Add animation effect
+            document.body.style.opacity = '0.8';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 150);
+        }
+
+        function updateThemeIcon(theme) {
+            const themeIcon = document.querySelector('.theme-icon');
+            if (themeIcon) {
+                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
+
+        // Filter functions
+        function applyFilters() {
+            const department = document.getElementById('department').value;
+            const status = document.getElementById('status').value;
+            const search = document.getElementById('search').value;
+            
+            // Simulate filtering - show loading state
+            const applyBtn = document.querySelector('.btn-primary');
+            const originalText = applyBtn.textContent;
+            applyBtn.textContent = 'Applying...';
+            applyBtn.disabled = true;
+            
+            setTimeout(() => {
+                applyBtn.textContent = originalText;
+                applyBtn.disabled = false;
+                
+                // Show notification
+                showNotification(`Filters applied: ${department || 'All Departments'}, ${status || 'All Status'}, ${search || 'No search term'}`);
+            }, 800);
+        }
+
+        function resetFilters() {
+            document.getElementById('department').value = '';
+            document.getElementById('status').value = '';
+            document.getElementById('search').value = '';
+            
+            showNotification('Filters reset successfully');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Show loading state
+                const logoutBtn = document.querySelector('.logout-btn');
+                const originalText = logoutBtn.textContent;
+                logoutBtn.textContent = 'Logging out...';
+                logoutBtn.disabled = true;
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000);
+            }
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--gradient-primary);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 12px;
+                box-shadow: var(--shadow-glow);
+                z-index: 1000;
+                transform: translateX(150%);
+                transition: transform 0.3s ease;
+                font-weight: 600;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(150%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Add hover effects to table rows
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableRows = document.querySelectorAll('.table tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'rgba(124, 58, 237, 0.05)';
+                    this.style.cursor = 'pointer';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Add click effects to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.7);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        top: ${y}px;
+                        left: ${x}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
