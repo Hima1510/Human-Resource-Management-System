@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dayflow HRMS – Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            /* Enhanced Color Palette */
+            --primary: #1e40af;        /* Rich royal blue */
+            --primary-light: #60a5fa;  /* Lighter blue */
+            --primary-dark: #1e3a8a;   /* Dark navy */
+            --accent: #7c3aed;         /* Vibrant purple */
+            --accent-light: #a78bfa;   /* Light purple */
+            --teal: #0d9488;           /* Vibrant teal */
+            --teal-light: #5eead4;     /* Light teal */
+            --success: #10b981;        /* Emerald green */
+            --warning: #f59e0b;        /* Amber */
+            --danger: #ef4444;         /* Coral red */
+            
+            /* Background & Surface Colors */
+            --bg: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            --card: #ffffff;
+            --card-hover: #fef3c7;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            
+            /* Text Colors */
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #10b981 100%);
+            --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
+            
+            /* Shadows */
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-elevated: 0 10px 25px -5px rgba(30, 41, 59, 0.08), 0 8px 10px -6px rgba(30, 41, 59, 0.03);
+            --shadow-glow: 0 20px 40px rgba(124, 58, 237, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --card: #1e293b;
+            --border: #334155;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-light: #cbd5e1;
+            --gradient-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 20px 40px rgba(124, 58, 237, 0.2);
+            --danger: #f87171;
+            --warning: #fbbf24;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        a { 
+            text-decoration: none; 
+            color: inherit; 
+            transition: all 0.3s ease;
+        }
+
+        header {
+            padding: 16px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        [data-theme="dark"] header {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        [data-theme="dark"] .problem-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px auto;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        [data-theme="dark"] .problem-section::before {
+            opacity: 0.2;
+        }
+
+        [data-theme="dark"] .problem-list {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-color: var(--border);
+        }
+
+        [data-theme="dark"] .problem-list li {
+            border-bottom-color: rgba(248, 113, 113, 0.2);
+        }
+
+        [data-theme="dark"] .problem-list li:hover {
+            background: rgba(248, 113, 113, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-mark::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: transform 0.6s ease;
+        }
+
+        .logo-mark:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+        }
+
+        .logo-mark:hover::after {
+            transform: rotate(225deg);
+        }
+
+        .logo-text-main {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            position: relative;
+            padding: 8px 0;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transform: translateX(-50%);
+            transition: width 0.4s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 16px;
+            margin-left: 20px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.4s ease;
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(30, 64, 175, 0.08);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-glow);
+            background: var(--gradient-primary);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 80px;
+            padding: 80px 7% 60px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient-primary);
+            border-radius: 5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            font-weight: 400;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--teal);
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            background: linear-gradient(90deg, rgba(124, 58, 237, 0.05) 0%, transparent 100%);
+            border-radius: 0 12px 12px 0;
+            font-weight: 500;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .hero-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 720px;
+        }
+
+        .hero-points ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .hero-points li {
+            padding: 16px 20px 16px 60px;
+            position: relative;
+            line-height: 1.6;
+            background: var(--gradient-card);
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .hero-points li:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .hero-points li:nth-child(1)::before { background: var(--gradient-primary); }
+        .hero-points li:nth-child(2)::before { background: var(--gradient-secondary); }
+        .hero-points li:nth-child(3)::before { background: var(--gradient-accent); }
+        .hero-points li:nth-child(4)::before { background: linear-gradient(135deg, var(--warning), var(--danger)); }
+        .hero-points li:nth-child(5)::before { background: linear-gradient(135deg, var(--teal), var(--success)); }
+
+        .hero-points li::before {
+            content: "✓";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: bold;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .card {
+            background: var(--gradient-card);
+            border-radius: 20px;
+            border: 2px solid transparent;
+            padding: 40px;
+            box-shadow: var(--shadow-elevated);
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent-light);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tag {
+            padding: 8px 20px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--teal-light) 0%, var(--accent-light) 100%);
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.2);
+        }
+
+        .card-columns {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+        }
+
+        .small-card {
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            padding: 32px;
+            background: var(--gradient-card);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .small-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .small-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-glow);
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+        }
+
+        .small-card:nth-child(2)::before {
+            background: var(--gradient-secondary);
+        }
+
+        .small-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .small-card h3::before {
+            content: '📊';
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .small-card:nth-child(2) h3::before {
+            content: '👥';
+        }
+
+        .list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list li {
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            padding-left: 28px;
+            position: relative;
+            line-height: 1.6;
+            transition: transform 0.3s ease;
+        }
+
+        .list li:hover {
+            transform: translateX(5px);
+            color: var(--primary);
+        }
+
+        .list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .list li:hover::before {
+            transform: translateX(5px);
+            color: var(--teal);
+        }
+
+        footer {
+            padding: 32px 7%;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] footer {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        #current-time {
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] #current-time {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 900px) {
+            main {
+                padding-top: 60px;
+                gap: 60px;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-points ul {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 20px;
+                padding: 16px 5%;
+            }
+            
+            nav {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            
+            .nav-actions {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .problem-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .problem-section::before {
+            content: '⚠️';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 32px;
+            color: var(--text-main);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--danger) 0%, var(--warning) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .problem-list {
+            list-style: none;
+            padding: 0;
+            margin: 40px 0;
+            text-align: left;
+            background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .problem-list li {
+            padding: 20px 20px 20px 60px;
+            border-bottom: 2px solid rgba(239, 68, 68, 0.1);
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .problem-list li:hover {
+            background: rgba(254, 226, 226, 0.3);
+            transform: translateX(10px);
+            border-radius: 10px;
+        }
+
+        .problem-list li:last-child {
+            border-bottom: none;
+        }
+
+        .problem-list li::before {
+            content: "🔥";
+            font-size: 1.5rem;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        .benefits-section {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .benefits-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, transparent 100%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .benefit-item {
+            background: linear-gradient(135deg, var(--card) 0%, var(--gradient-card) 100%);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-primary);
+            transition: height 0.4s ease;
+        }
+
+        .benefit-item:hover::before {
+            height: 10px;
+        }
+
+        .benefit-item:nth-child(2)::before { background: var(--gradient-secondary); }
+        .benefit-item:nth-child(3)::before { background: var(--gradient-accent); }
+        .benefit-item:nth-child(4)::before { background: linear-gradient(135deg, var(--warning), var(--success)); }
+
+        .benefit-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--accent-light);
+        }
+
+        .benefit-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .benefit-item:hover h3 {
+            color: var(--accent);
+        }
+
+        .benefit-item p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Animated background elements */
+        .floating-shape {
+            position: fixed;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-light), transparent);
+            filter: blur(40px);
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            bottom: 20%;
+            right: 5%;
+            background: linear-gradient(135deg, var(--primary-light), transparent);
+            animation-delay: 5s;
+        }
+
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            background: linear-gradient(135deg, var(--teal-light), transparent);
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Animated background shapes -->
+<div class="floating-shape shape-1"></div>
+<div class="floating-shape shape-2"></div>
+<div class="floating-shape shape-3"></div>
+
+<header>
+    <div class="logo">
+        <div class="logo-mark">D</div>
+        <div>
+            <div class="logo-text-main">Dayflow</div>
+            <div class="logo-text-sub">Human Resource Management System</div>
+        </div>
+    </div>
+    <nav>
+        <a href="#features">Features</a>
+        <a href="#roles">Roles</a>
+        <a href="#problems">Problems</a>
+        <a href="#benefits">Benefits</a>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="btn btn-outline" title="Toggle Theme">🌙</button>
+            <a href="login.html" class="btn btn-outline">Sign In</a>
+            <a href="signup.html" class="btn btn-primary">Get Started Free</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h1 class="hero-title">Every workday, perfectly aligned.</h1>
+        <p class="hero-subtitle">
+            Dayflow HRMS empowers administrators and HR professionals to efficiently manage employee profiles, track attendance, handle leave requests, and provide payroll visibility through secure, role-based access controls.
+        </p>
+        <p class="hero-tagline">
+            Tailored for administrators, HR officers, and employees with distinct permission levels and streamlined workflows.
+        </p>
+        <div class="hero-actions">
+            <a href="login.html" class="btn btn-primary">Sign in to Dashboard</a>
+            <a href="signup.html" class="btn btn-outline">Schedule a Demo</a>
+        </div>
+        <div class="hero-points" id="features">
+            <ul>
+            <li>Secure user authentication with email verification</li>
+            <li>Role-based access control for Admin, HR, and Employees</li>
+            <li>Comprehensive attendance tracking (daily and weekly)</li>
+            <li>Automated leave request and approval processes</li>
+            <li>Transparent payroll visibility for employees</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="problem-section" id="problems">
+        <h2 class="section-title">The Challenge of Manual HR Management</h2>
+        <p class="section-description">
+            Traditional HR processes often involve cumbersome paperwork, manual tracking, and fragmented systems that lead to inefficiencies, errors, and security risks.
+        </p>
+        <ul class="problem-list">
+            <li>Time-consuming attendance monitoring and leave management</li>
+            <li>Inconsistent payroll processing and visibility issues</li>
+            <li>Lack of centralized employee data and profile management</li>
+            <li>Security vulnerabilities in role-based access and data handling</li>
+            <li>Difficulty in generating accurate reports and analytics</li>
+        </ul>
+        <p class="section-description">
+            Dayflow HRMS addresses these challenges by providing a unified, secure, and efficient platform for all HR operations.
+        </p>
+    </section>
+
+    <section class="card" id="roles">
+        <div class="card-header">
+            <div class="card-title">Key Capabilities in Dayflow HRMS</div>
+            <span class="tag">Admin • HR • Employees</span>
+        </div>
+        <div class="card-columns">
+            <div class="small-card">
+                <h3>Employee Portal</h3>
+                <ul class="list">
+                    <li>Access personal and professional profile information.</li>
+                    <li>Monitor daily and weekly attendance records.</li>
+                    <li>Submit leave applications for various categories.</li>
+                    <li>Review salary details and payroll information.</li>
+                </ul>
+            </div>
+            <div class="small-card">
+                <h3>Administrator & HR Dashboard</h3>
+                <ul class="list">
+                    <li>Oversee and update employee profiles and documentation.</li>
+                    <li>Supervise comprehensive attendance data.</li>
+                    <li>Process leave requests with approval mechanisms.</li>
+                    <li>Maintain salary structures and generate payroll reports.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits-section" id="benefits">
+        <h2 class="section-title">Why Choose Dayflow HRMS?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <h3>🔒 Secure & Compliant</h3>
+                <p>Advanced security features and compliance with industry standards to protect sensitive employee data.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>⚡ Efficient Workflows</h3>
+                <p>Streamlined processes for attendance, leave, and payroll management, reducing administrative overhead.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>📊 Real-time Insights</h3>
+                <p>Comprehensive reporting and analytics to make informed HR decisions and improve organizational performance.</p>
+            </div>
+            <div class="benefit-item">
+                <h3>👥 User-Friendly Interface</h3>
+                <p>Intuitive design tailored for administrators, HR professionals, and employees with varying technical expertise.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2026 Dayflow HRMS · Every workday, perfectly aligned. <span id="current-time"></span>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .hero-tagline, .hero-actions, .hero-points, .problem-section, .benefits-section, .card');
+        elements.forEach((el, index) => {
+            el.classList.add('fade-in');
+            el.style.animationDelay = `${index * 0.15}s`;
+        });
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = ' | Current Time: ' + timeString;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add hover effect to all cards
+        document.querySelectorAll('.card, .small-card, .benefit-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '';
+            });
+        });
+
+        // Add parallax effect to floating shapes
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.floating-shape').forEach((shape, i) => {
+                const speed = (i + 1) * 0.5;
+                shape.style.transform = `translate(${x * 20 * speed}px, ${y * 20 * speed}px)`;
+            });
+        });
+
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        themeToggle.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+    });
+</script>
+
+</body>
+</html>
