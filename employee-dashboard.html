@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dayflow HRMS - Admin Dashboard</title>
+    <title>Dayflow HRMS - Employee Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
@@ -27,7 +27,7 @@
         header {
             background: white;
             border-bottom: 1px solid #e5e7eb;
-            padding: 20px 7%;
+            padding: 20px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,7 +46,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-decoration: none;
         }
 
         .logo-mark {
@@ -58,6 +57,38 @@
             place-items: center;
             color: white;
             font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
         }
 
         .logout-btn {
@@ -77,10 +108,13 @@
         }
 
         main {
-            padding: 40px 7%;
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .welcome h1 {
+        /* Dashboard View (Default) */
+        #dashboardView .welcome h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             background: var(--gradient);
@@ -89,67 +123,9 @@
             color: transparent;
         }
 
-        .welcome p {
+        #dashboardView .welcome p {
             color: #6b7280;
             margin-bottom: 30px;
-        }
-
-        .filters {
-            background: white;
-            border-radius: 16px;
-            border: 2px solid #e5e7eb;
-            padding: 25px;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            box-shadow: var(--shadow);
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            color: #374151;
-        }
-
-        .filter-group select, .filter-group input {
-            padding: 12px;
-            border: 2px solid #e5e7eb;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .filter-group select:focus, .filter-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-
-        .btn-primary {
-            padding: 12px 24px;
-            background: var(--gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            align-self: flex-end;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
         }
 
         .dashboard-grid {
@@ -228,14 +204,27 @@
             color: var(--success);
         }
 
-        .status.inactive {
-            background: #fef2f2;
-            color: var(--danger);
-        }
-
         .status.pending {
             background: #fef3c7;
             color: var(--warning);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
         }
 
         .btn-outline {
@@ -256,118 +245,107 @@
             color: white;
         }
 
-        .action-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* Employee Details Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e5e7eb;
-        }
-
-        .modal-header h2 {
-            font-size: 1.5rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280;
-            transition: color 0.3s;
-        }
-
-        .close-btn:hover {
-            color: var(--danger);
-        }
-
-        .employee-details {
-            margin: 20px 0;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .detail-value {
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Simple Add Employee Section */
-        .add-employee-section {
+        /* View Profile Section */
+        .view-profile-section {
             background: white;
             border-radius: 16px;
             border: 2px solid #e5e7eb;
             padding: 30px;
             margin-top: 40px;
             box-shadow: var(--shadow);
-            scroll-margin-top: 20px;
+            display: none;
         }
 
-        .section-header {
-            margin-bottom: 25px;
-            text-align: center;
+        .view-profile-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        .section-header h2 {
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .profile-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .profile-info p {
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .profile-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .profile-item label {
+            display: block;
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-item .value {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* Request Leave Section */
+        .request-leave-section {
+            background: white;
+            border-radius: 16px;
+            border: 2px solid #e5e7eb;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .request-leave-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .leave-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .leave-header h2 {
             font-size: 1.8rem;
             margin-bottom: 10px;
             background: var(--gradient);
@@ -376,9 +354,8 @@
             color: transparent;
         }
 
-        .simple-form {
+        .leave-form {
             max-width: 500px;
-            margin: 0 auto;
         }
 
         .form-group {
@@ -392,7 +369,7 @@
             color: #374151;
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #e5e7eb;
@@ -400,38 +377,71 @@
             font-size: 14px;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--accent);
         }
 
-        .form-actions {
+        .leave-summary {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid #e5e7eb;
+        }
+
+        .leave-summary h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .leave-balance {
             display: flex;
-            gap: 15px;
-            margin-top: 30px;
+            justify-content: space-between;
+            margin: 8px 0;
         }
 
-        .form-actions .btn-primary {
-            flex: 1;
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: transparent;
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
-        .form-actions .btn-outline {
-            flex: 1;
+        .back-btn:hover {
+            background: #f1f5f9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 768px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            .filters, .form-actions {
+            .profile-header {
                 flex-direction: column;
+                text-align: center;
             }
-            .btn-primary {
-                align-self: stretch;
+            .profile-grid {
+                grid-template-columns: 1fr;
             }
-            .modal-content {
-                width: 95%;
-                padding: 20px;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
@@ -440,222 +450,211 @@
     <header>
         <div class="logo">
             <div class="logo-mark">D</div>
-            <div>
-                <div class="logo-text-main">Dayflow</div>
-                <div class="logo-text-sub">Admin Dashboard</div>
-            </div>
+            <div>Dayflow</div>
         </div>
-        <div class="user-info">
-            <button class="add-employee-btn" onclick="openAddEmployeeModal()">
-                <span>+</span> Add Employee
-            </button>
-            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                <span class="theme-icon">🌙</span>
-            </button>
-            <span>Welcome, Admin</span>
+        <div class="nav-links">
+            <a href="#" onclick="showDashboard()">Dashboard</a>
+            <a href="#" onclick="showProfile()" id="profileNav">Profile</a>
+            <a href="#" onclick="requestLeave()" id="leaveNav">Request Leave</a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span style="font-weight: 600;">John Doe 👤</span>
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </header>
 
     <main>
-        <div class="welcome">
-            <h1>Admin Dashboard</h1>
-            <p>Manage employees, attendance, and approvals</p>
-        </div>
+        <!-- Dashboard View (Default) -->
+        <div id="dashboardView">
+            <div class="welcome">
+                <h1>Employee Dashboard</h1>
+                <p>Manage your profile, attendance, and requests</p>
+            </div>
 
-        <!-- Filter Section -->
-        <div class="filters">
-            <div class="filter-group">
-                <label for="department">Department</label>
-                <select id="department">
-                    <option value="">All Departments</option>
-                    <option value="engineering">Engineering</option>
-                    <option value="hr">HR</option>
-                    <option value="sales">Sales</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="status">Status</label>
-                    <select id="status">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="search">Search</label>
-                <input type="text" id="search" placeholder="Name or ID">
-            </div>
-            <button class="btn-primary" onclick="applyFilters()">Apply Filters</button>
-        </div>
+            <div class="dashboard-grid">
+                <!-- Profile Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <span>👤</span> Profile
+                    </div>
+                    <div class="metric">John Doe</div>
+                    <div class="metric-label">Employee ID: EMP001</div>
+                    <p style="margin-top: 10px; color: #6b7280;">Software Engineer</p>
+                    <button class="btn-outline" onclick="showProfile()" style="margin-top: 15px;">View Full Profile</button>
+                </div>
 
-        <div class="dashboard-grid">
-            <!-- Employee Management Card -->
-            <div class="card">
-                <div class="card-title">
-                    <span>👥</span> Employees
+                <!-- Attendance Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <span>📊</span> Attendance
+                    </div>
+                    <div class="metric">92%</div>
+                    <div class="metric-label">This Month</div>
+                    <div style="margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>Present Today</span>
+                            <span>✅ Present</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>This Week</span>
+                            <span>5/5 days</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="metric" id="totalEmployees">25</div>
-                <div class="metric-label">Total Employees</div>
-                <div style="margin: 15px 0;">
-                    <button class="btn-primary" onclick="scrollToAddEmployee()">➕ Add Employee</button>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr><th>Name</th><th>Status</th><th>Action</th></tr>
-                    </thead>
-                    <tbody>
+
+                <!-- Leave Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <span>✅</span> Leave
+                    </div>
+                    <div class="metric">12</div>
+                    <div class="metric-label">Days Available</div>
+                    <div style="margin: 15px 0;">
+                        <button class="btn" onclick="requestLeave()">➕ Request Leave</button>
+                    </div>
+                    <table class="table">
                         <tr>
-                            <td>John Doe</td>
-                            <td><span class="status active">Active</span></td>
-                            <td><button class="btn-outline" onclick="viewEmployee('John Doe')">View</button></td>
+                            <td>Sick Leave</td>
+                            <td><span class="status approved">Approved</span></td>
+                            <td>2 days</td>
                         </tr>
                         <tr>
-                            <td>Jane Smith</td>
-                            <td><span class="status active">Active</span></td>
-                            <td><button class="btn-outline" onclick="viewEmployee('Jane Smith')">View</button></td>
+                            <td>Annual Leave</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td>5 days</td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
+                    </table>
+                </div>
 
-            <!-- Attendance Card -->
-            <div class="card">
-                <div class="card-title">
-                    <span>📊</span> Attendance
-                </div>
-                <div class="metric">92%</div>
-                <div class="metric-label">This Month</div>
-                <div style="margin-top: 15px;">
-                    <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                        <span>Present Today</span>
-                        <span>23/25</span>
+                <!-- Payroll Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <span>💰</span> Payroll
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                        <span>This Week</span>
-                        <span>118/125</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Leave Card -->
-            <div class="card">
-                <div class="card-title">
-                    <span>✅</span> Leave
-                </div>
-                <div class="metric" id="pendingLeaves">5</div>
-                <div class="metric-label">Pending Requests</div>
-                <table class="table" style="margin-top: 15px;">
-                    <tr id="leaveRow1">
-                        <td>John Doe</td>
-                        <td><span class="status pending">Pending</span></td>
-                        <td>
-                            <button class="btn-outline" onclick="approveLeave('leaveRow1')">Approve</button>
-                            <button class="btn-outline" onclick="rejectLeave('leaveRow1')" style="background: #fef2f2; color: #ef4444; border-color: #ef4444;">Reject</button>
-                        </td>
-                    </tr>
-                    <tr id="leaveRow2">
-                        <td>Jane Smith</td>
-                        <td><span class="status pending">Pending</span></td>
-                        <td>
-                            <button class="btn-outline" onclick="approveLeave('leaveRow2')">Approve</button>
-                            <button class="btn-outline" onclick="rejectLeave('leaveRow2')" style="background: #fef2f2; color: #ef4444; border-color: #ef4444;">Reject</button>
-                        </td>
-                    </tr>
-                    <tr id="leaveRow3">
-                        <td>Mike Wilson</td>
-                        <td><span class="status pending">Pending</span></td>
-                        <td>
-                            <button class="btn-outline" onclick="approveLeave('leaveRow3')">Approve</button>
-                            <button class="btn-outline" onclick="rejectLeave('leaveRow3')" style="background: #fef2f2; color: #ef4444; border-color: #ef4444;">Reject</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Payroll Card -->
-            <div class="card">
-                <div class="card-title">
-                    <span>💰</span> Payroll
-                </div>
-                <div class="metric">$125K</div>
-                <div class="metric-label">This Month</div>
-                <div style="margin-top: 15px;">
-                    <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                        <span>Base</span>
-                        <span>$110K</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin: 8px 0;">
-                        <span>Bonuses</span>
-                        <span>$15K</span>
+                    <div class="metric">$5,200</div>
+                    <div class="metric-label">This Month</div>
+                    <div style="margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>Base</span>
+                            <span>$4,500</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin: 8px 0;">
+                            <span>Bonus</span>
+                            <span>$700</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Employee Details Modal -->
-        <div id="employeeModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Employee Details</h2>
-                    <button class="close-btn" onclick="closeModal()">×</button>
-                </div>
-                <div class="employee-details" id="employeeDetails">
-                    <!-- Employee details will be populated here -->
-                </div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn-primary" onclick="closeModal()">Close</button>
+        <!-- View Profile Section (Hidden by Default) -->
+        <div id="profileView" class="view-profile-section">
+            <div class="profile-header">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-info">
+                    <h2>John Doe</h2>
+                    <p>Software Engineer</p>
+                    <p>Engineering Department</p>
+                    <p>john.doe@company.com</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Simple Add Employee Form -->
-        <div class="add-employee-section" id="addEmployeeForm">
-            <div class="section-header">
-                <h2>Add New Employee</h2>
-                <p style="color: #6b7280;">Fill in the basic details</p>
-            </div>
-
-            <div class="simple-form">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="fullName" placeholder="Enter full name">
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="employee@company.com">
-                </div>
-
-                <div class="form-group">
+            <div class="profile-grid">
+                <div class="profile-item">
                     <label>Employee ID</label>
-                    <input type="text" id="employeeId" placeholder="EMP-001">
+                    <div class="value">EMP001</div>
+                </div>
+                <div class="profile-item">
+                    <label>Joining Date</label>
+                    <div class="value">2023-01-15</div>
+                </div>
+                <div class="profile-item">
+                    <label>Phone</label>
+                    <div class="value">+1 (555) 123-4567</div>
+                </div>
+                <div class="profile-item">
+                    <label>Monthly Salary</label>
+                    <div class="value">$5,200</div>
+                </div>
+                <div class="profile-item">
+                    <label>Leave Balance</label>
+                    <div class="value">12 days</div>
+                </div>
+                <div class="profile-item">
+                    <label>Attendance Rate</label>
+                    <div class="value">96%</div>
+                </div>
+                <div class="profile-item">
+                    <label>Department</label>
+                    <div class="value">Engineering</div>
+                </div>
+                <div class="profile-item">
+                    <label>Reporting Manager</label>
+                    <div class="value">Sarah Johnson</div>
+                </div>
+            </div>
+
+            <button class="back-btn" onclick="showDashboard()">← Back to Dashboard</button>
+        </div>
+
+        <!-- Request Leave Section (Hidden by Default) -->
+        <div id="leaveView" class="request-leave-section">
+            <div class="leave-header">
+                <h2>Request Leave</h2>
+                <p>Submit a new leave request for approval</p>
+            </div>
+
+            <div class="leave-form">
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <input type="text" id="leaveEmployee" value="John Doe" readonly>
                 </div>
 
                 <div class="form-group">
-                    <label>Department</label>
-                    <select id="departmentSelect">
-                        <option value="">Select Department</option>
-                        <option value="engineering">Engineering</option>
-                        <option value="hr">HR</option>
-                        <option value="sales">Sales</option>
-                        <option value="marketing">Marketing</option>
+                    <label>Leave Type</label>
+                    <select id="leaveType">
+                        <option value="">Select type</option>
+                        <option value="annual">Annual Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="emergency">Emergency Leave</option>
+                        <option value="personal">Personal Leave</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Position</label>
-                    <input type="text" id="position" placeholder="e.g., Software Engineer">
+                    <label>Start Date</label>
+                    <input type="date" id="leaveStart">
                 </div>
 
                 <div class="form-group">
-                    <label>Monthly Salary ($)</label>
-                    <input type="number" id="salary" placeholder="5000">
+                    <label>End Date</label>
+                    <input type="date" id="leaveEnd">
                 </div>
 
-                <div class="form-actions">
-                    <button type="button" class="btn-primary" onclick="addEmployee()">Add Employee</button>
-                    <button type="button" class="btn-outline" onclick="clearForm()">Clear</button>
+                <div class="form-group">
+                    <label>Reason (Optional)</label>
+                    <textarea id="leaveReason" rows="3" placeholder="Brief reason for leave"></textarea>
+                </div>
+
+                <div class="leave-summary">
+                    <h3>Leave Balance</h3>
+                    <div class="leave-balance">
+                        <span>Annual Leave:</span>
+                        <span>12 days available</span>
+                    </div>
+                    <div class="leave-balance">
+                        <span>Sick Leave:</span>
+                        <span>8 days available</span>
+                    </div>
+                    <div class="leave-balance">
+                        <span>Requested Duration:</span>
+                        <span id="leaveDuration">0 days</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button class="btn" onclick="submitLeave()">Submit Request</button>
+                    <button class="back-btn" onclick="showDashboard()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -666,198 +665,122 @@
             if (confirm('Logout?')) window.location.href = 'login.html';
         }
 
-        function applyFilters() {
-            alert('Filters applied');
-        }
-
-        function scrollToAddEmployee() {
-            document.getElementById('addEmployeeForm').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-
-        // View Employee Details
-        function viewEmployee(employeeName) {
-            const modal = document.getElementById('employeeModal');
-            const detailsDiv = document.getElementById('employeeDetails');
-            
-            // Create employee details based on name
-            let detailsHTML = '';
-            
-            if (employeeName === 'John Doe') {
-                detailsHTML = `
-                    <div class="detail-row">
-                        <span class="detail-label">Full Name:</span>
-                        <span class="detail-value">John Doe</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Employee ID:</span>
-                        <span class="detail-value">EMP001</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Position:</span>
-                        <span class="detail-value">Senior Software Engineer</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Department:</span>
-                        <span class="detail-value">Engineering</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Email:</span>
-                        <span class="detail-value">john.doe@company.com</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Phone:</span>
-                        <span class="detail-value">+1 (555) 123-4567</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Join Date:</span>
-                        <span class="detail-value">2023-01-15</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Status:</span>
-                        <span class="detail-value"><span class="status active">Active</span></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Monthly Salary:</span>
-                        <span class="detail-value">$6,500</span>
-                    </div>
-                `;
-            } else if (employeeName === 'Jane Smith') {
-                detailsHTML = `
-                    <div class="detail-row">
-                        <span class="detail-label">Full Name:</span>
-                        <span class="detail-value">Jane Smith</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Employee ID:</span>
-                        <span class="detail-value">EMP002</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Position:</span>
-                        <span class="detail-value">HR Manager</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Department:</span>
-                        <span class="detail-value">Human Resources</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Email:</span>
-                        <span class="detail-value">jane.smith@company.com</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Phone:</span>
-                        <span class="detail-value">+1 (555) 987-6543</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Join Date:</span>
-                        <span class="detail-value">2022-03-20</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Status:</span>
-                        <span class="detail-value"><span class="status active">Active</span></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Monthly Salary:</span>
-                        <span class="detail-value">$7,200</span>
-                    </div>
-                `;
-            }
-            
-            detailsDiv.innerHTML = detailsHTML;
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('employeeModal').style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('employeeModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Leave Approval Functions
-        function approveLeave(rowId) {
-            const leaves = parseInt(document.getElementById('pendingLeaves').innerText);
-            
-            // Check if count is already 0
-            if (leaves <= 0) {
-                alert('No pending leaves to approve!');
-                return;
-            }
-            
-            // Update the row
-            const row = document.getElementById(rowId);
-            if (row) {
-                row.cells[1].innerHTML = '<span class="status approved">Approved</span>';
-                row.cells[2].innerHTML = '<span style="color: #6b7280;">-</span>';
-                
-                // Update count (ensure it doesn't go negative)
-                const newCount = Math.max(0, leaves - 1);
-                document.getElementById('pendingLeaves').innerText = newCount;
-                
-                alert('Leave request approved!');
-            }
-        }
-
-        function rejectLeave(rowId) {
-            const leaves = parseInt(document.getElementById('pendingLeaves').innerText);
-            
-            // Check if count is already 0
-            if (leaves <= 0) {
-                alert('No pending leaves to reject!');
-                return;
-            }
-            
-            // Update the row
-            const row = document.getElementById(rowId);
-            if (row) {
-                row.remove(); // Remove the rejected leave from table
-                
-                // Update count (ensure it doesn't go negative)
-                const newCount = Math.max(0, leaves - 1);
-                document.getElementById('pendingLeaves').innerText = newCount;
-                
-                alert('Leave request rejected!');
-            }
-        }
-
-        function addEmployee() {
-            const name = document.getElementById('fullName').value;
-            const empId = document.getElementById('employeeId').value;
-            const salary = document.getElementById('salary').value;
-
-            if (!name || !empId || !salary) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            // Update total employees
-            const total = parseInt(document.getElementById('totalEmployees').innerText) + 1;
-            document.getElementById('totalEmployees').innerText = total;
-
-            alert(`Employee added!\nName: ${name}\nID: ${empId}\nSalary: $${salary}`);
-
-            // Clear form
-            clearForm();
-
-            // Scroll to top to see updated count
+        // Navigation functions
+        function showDashboard() {
+            document.getElementById('dashboardView').style.display = 'block';
+            document.getElementById('profileView').classList.remove('active');
+            document.getElementById('leaveView').classList.remove('active');
+            updateNav('dashboard');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function clearForm() {
-            document.getElementById('fullName').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('employeeId').value = '';
-            document.getElementById('departmentSelect').value = '';
-            document.getElementById('position').value = '';
-            document.getElementById('salary').value = '';
+        function showProfile() {
+            document.getElementById('dashboardView').style.display = 'none';
+            document.getElementById('profileView').classList.add('active');
+            document.getElementById('leaveView').classList.remove('active');
+            updateNav('profile');
+            
+            // Scroll to profile section
+            setTimeout(() => {
+                document.getElementById('profileView').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
         }
+
+        function requestLeave() {
+            document.getElementById('dashboardView').style.display = 'none';
+            document.getElementById('profileView').classList.remove('active');
+            document.getElementById('leaveView').classList.add('active');
+            updateNav('leave');
+            
+            // Clear form
+            document.getElementById('leaveType').value = '';
+            document.getElementById('leaveStart').value = '';
+            document.getElementById('leaveEnd').value = '';
+            document.getElementById('leaveReason').value = '';
+            document.getElementById('leaveDuration').textContent = '0 days';
+            
+            // Set today as default start date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('leaveStart').value = today;
+            
+            // Scroll to leave section
+            setTimeout(() => {
+                document.getElementById('leaveView').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        function updateNav(active) {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (active === 'profile') {
+                document.getElementById('profileNav').classList.add('active');
+            } else if (active === 'leave') {
+                document.getElementById('leaveNav').classList.add('active');
+            } else {
+                navLinks[0].classList.add('active');
+            }
+        }
+
+        function submitLeave() {
+            const type = document.getElementById('leaveType').value;
+            const start = document.getElementById('leaveStart').value;
+            const end = document.getElementById('leaveEnd').value;
+            const reason = document.getElementById('leaveReason').value;
+            
+            if (!type || !start || !end) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            
+            if (duration <= 0) {
+                alert('End date must be after start date');
+                return;
+            }
+            
+            alert(`✅ Leave request submitted!\n\nType: ${type}\nDuration: ${duration} days\nFrom: ${start} to ${end}\nReason: ${reason || 'Not specified'}`);
+            
+            showDashboard();
+        }
+
+        // Calculate leave duration
+        document.getElementById('leaveStart').addEventListener('change', updateLeaveDuration);
+        document.getElementById('leaveEnd').addEventListener('change', updateLeaveDuration);
+
+        function updateLeaveDuration() {
+            const start = document.getElementById('leaveStart').value;
+            const end = document.getElementById('leaveEnd').value;
+            
+            if (start && end) {
+                const startDate = new Date(start);
+                const endDate = new Date(end);
+                const duration = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+                document.getElementById('leaveDuration').textContent = duration + ' days';
+            }
+        }
+
+        // Auto-fill current date for leave end
+        document.getElementById('leaveStart').addEventListener('change', function() {
+            if (!document.getElementById('leaveEnd').value) {
+                const startDate = new Date(this.value);
+                const endDate = new Date(startDate);
+                endDate.setDate(endDate.getDate() + 2); // Default 3-day leave
+                document.getElementById('leaveEnd').value = endDate.toISOString().split('T')[0];
+                updateLeaveDuration();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showDashboard();
+            updateNav('dashboard');
+        });
     </script>
 </body>
 </html>
