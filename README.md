@@ -74,9 +74,9 @@ Traditional HR processes rely heavily on manual record keeping, spreadsheets, an
 
 🤝 Contributors
 
-Kairavi Padhariya
-Hima Mehta
-Akshara Pandya
+Kairavi Padhariya,
+Hima Mehta,
+Akshara Pandya,
 Chandni Kothari
 
 ---
